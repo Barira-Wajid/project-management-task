@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Tasks | BariraProjects</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:#0b1020;color:#fff;padding:35px}
+header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:15px;margin-bottom:35px}
+h1{font-size:30px}
+.subtitle{color:#929bb5;margin-top:8px}
+button{border:0;cursor:pointer;padding:11px 17px;border-radius:9px;background:#7957ff;color:white;font-weight:bold}
+.filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:25px}
+.filters button{background:#1b2340;color:#aeb8d5}
+.filters button.active{background:#7957ff;color:white}
+.task-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+.task-card{background:#151d35;border:1px solid #293454;padding:22px;border-radius:15px;transition:.2s}
+.task-card:hover{transform:translateY(-4px);border-color:#7957ff}
+.task-card h3{font-size:19px;margin:15px 0 10px}
+.task-card p{color:#aab4d0;line-height:1.5;font-size:14px}
+.project{color:#a78bfa;font-size:13px;font-weight:bold}
+.badges{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}
+.badge{padding:6px 10px;border-radius:20px;font-size:11px;background:#252f4c;color:#cbd5f5}
+.todo{color:#fbbf24}.in_progress{color:#60a5fa}.completed{color:#4ade80}
+.open-btn{width:100%;margin-top:12px}
+.empty,.loading{text-align:center;color:#929bb5;padding:50px 15px;grid-column:1/-1}
+@media(max-width:600px){body{padding:20px}h1{font-size:24px}}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div>
+        <h1>▤ My Tasks</h1>
+        <p class="subtitle">All your assigned work in one place.</p>
+    </div>
+    <button onclick="location.href='dashboard.html'">← Dashboard</button>
+</header>
+
+<div class="filters">
+    <button class="active" onclick="filterTasks('all',this)">All Tasks</button>
+    <button onclick="filterTasks('todo',this)">To Do</button>
+    <button onclick="filterTasks('in_progress',this)">In Progress</button>
+    <button onclick="filterTasks('completed',this)">Completed</button>
+</div>
+
+<div class="task-grid" id="taskGrid">
+    <div class="loading">Loading your tasks...</div>
+</div>
+
+<script>
+let allTasks = [];
+let currentFilter = "all";
+
+async function loadMyTasks(){
+    const grid = document.getElementById("taskGrid");
+
+    try {
+        const response = await fetch("/api/my-tasks");
+        const data = await response.json();
+
+        if(!response.ok || !data.success){
+            grid.innerHTML = '<div class="empty">Please log in to view your tasks.</div>';
+            return;
+        }
+
+        allTasks = data.tasks || [];
+        renderTasks();
+
+    } catch(error){
+        grid.innerHTML = '<div class="empty">Could not load tasks. Check your server.</div>';
+    }
+}
+
+function filterTasks(status,button){
+    currentFilter = status;
+
+    document.querySelectorAll(".filters button").forEach(btn=>{
+        btn.classList.remove("active");
+    });
+
+    button.classList.add("active");
+    renderTasks();
+}
+
+function renderTasks(){
+    const grid = document.getElementById("taskGrid");
+
+    const filtered = currentFilter === "all"
+        ? allTasks
+        : allTasks.filter(task=>task.status === currentFilter);
+
+    if(filtered.length === 0){
+        grid.innerHTML = '<div class="empty">No tasks found in this category. 🎯</div>';
+        return;
+    }
+
+    grid.innerHTML = filtered.map(task=>`
+        <div class="task-card">
+            <span class="project">${escapeHTML(task.project_name || "Project")}</span>
+
+            <h3>${escapeHTML(task.title || "Untitled Task")}</h3>
+
+            <p>${escapeHTML(task.description || "No description provided.")}</p>
+
+            <div class="badges">
+                <span class="badge ${task.status}">
+                    ${(task.status || "todo").replace("_"," ").toUpperCase()}
+                </span>
+                <span class="badge">${escapeHTML(task.priority || "Normal")} Priority</span>
+            </div>
+
+            <p>📅 Due: ${task.due_date ? escapeHTML(String(task.due_date).slice(0,10)) : "Not set"}</p>
+
+            <button class="open-btn" onclick="openProject(${Number(task.project_id)})">
+                Open Project →
+            </button>
+        </div>
+    `).join("");
+}
+
+function escapeHTML(value){
+    return String(value).replace(/[&<>"']/g, char => ({
+        "&":"&amp;",
+        "<":"&lt;",
+        ">":"&gt;",
+        '"':"&quot;",
+        "'":"&#39;"
+    })[char]);
+}
+
+function openProject(id){
+    location.href = `project.html?id=${id}`;
+}
+
+loadMyTasks();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login | BariraProjects</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #090b18;
+    color: white;
+    padding: 20px;
+}
+
+.container {
+    width: 100%;
+    max-width: 440px;
+    padding: 38px;
+    background: #12152a;
+    border: 1px solid #292e50;
+    border-radius: 20px;
+    box-shadow: 0 20px 80px #0008;
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 12px;
+    background: linear-gradient(90deg,#a78bfa,#38bdf8);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #9299b5;
+    margin-bottom: 28px;
+    font-size: 14px;
+}
+
+input {
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 16px;
+    background: #1b203a;
+    border: 1px solid #343b5e;
+    border-radius: 10px;
+    outline: none;
+    color: white;
+    font-size: 14px;
+}
+
+input:focus {
+    border-color: #8b5cf6;
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(90deg,#7c3aed,#2563eb);
+    border: none;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: .3s;
+}
+
+button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px #7c3aed66;
+}
+
+#message {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.signup {
+    text-align: center;
+    margin-top: 22px;
+    color: #9299b5;
+    font-size: 14px;
+}
+
+a {
+    color: #a78bfa;
+    text-decoration: none;
+}
+
+@media(max-width:480px) {
+    .container { padding: 27px 20px; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="logo">✦ BariraProjects</div>
+
+    <h2>Welcome Back!</h2>
+
+    <p class="subtitle">Login to continue your productivity journey.</p>
+
+    <form id="loginForm">
+
+        <input type="email" id="email" placeholder="Email Address" required>
+
+        <input type="password" id="password" placeholder="Password" required>
+
+        <button type="submit" id="loginBtn">Login →</button>
+
+    </form>
+
+    <p id="message"></p>
+
+    <div class="signup">
+        Don't have an account? <a href="register.html">Create one</a>
+    </div>
+
+</div>
+
+<script>
+document.getElementById("loginForm").addEventListener("submit", async function(e) {
+
+    e.preventDefault();
+
+    const message = document.getElementById("message");
+    const button = document.getElementById("loginBtn");
+
+    button.disabled = true;
+    button.textContent = "Logging in...";
+
+    try {
+
+        const response = await fetch("/api/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            credentials: "same-origin",
+            body: JSON.stringify({
+                email: document.getElementById("email").value.trim(),
+                password: document.getElementById("password").value
+            })
+        });
+
+        const result = await response.json();
+
+        message.style.color = result.success ? "#4ade80" : "#fb7185";
+        message.textContent = result.message;
+
+        if(result.success) {
+            setTimeout(() => {
+                window.location.href = "dashboard.html";
+            }, 700);
+        }
+
+    } catch(error) {
+
+        message.style.color = "#fb7185";
+        message.textContent = "Server connection failed!";
+
+    }
+
+    button.disabled = false;
+    button.textContent = "Login →";
+
+});
+</script>
+
+</body>
+</html>

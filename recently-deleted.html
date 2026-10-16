@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recently Deleted | BariraProjects</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #0b1020;
+    color: white;
+    min-height: 100vh;
+}
+
+header {
+    padding: 22px 7%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #252e49;
+}
+
+.logo {
+    font-size: 23px;
+    font-weight: bold;
+    color: #c4b5fd;
+}
+
+header a {
+    color: #a78bfa;
+    text-decoration: none;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 55px auto;
+    padding: 0 20px;
+}
+
+.heading {
+    margin-bottom: 30px;
+}
+
+.heading h1 {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.heading p {
+    color: #929fbd;
+    line-height: 1.6;
+}
+
+.warning {
+    background: rgba(245, 158, 11, 0.08);
+    border: 1px solid rgba(245, 158, 11, 0.25);
+    color: #fbbf24;
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    font-size: 13px;
+}
+
+#deletedTasks {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+    gap: 20px;
+}
+
+.task-card {
+    background: #151d35;
+    border: 1px solid #293553;
+    border-radius: 16px;
+    padding: 23px;
+    transition: 0.3s;
+}
+
+.task-card:hover {
+    transform: translateY(-4px);
+    border-color: #7957ff;
+    box-shadow: 0 10px 30px rgba(121, 87, 255, 0.12);
+}
+
+.task-card h3 {
+    font-size: 19px;
+    margin-bottom: 12px;
+}
+
+.task-card p {
+    color: #a5b0ca;
+    font-size: 13px;
+    margin: 9px 0;
+    line-height: 1.5;
+}
+
+.badge {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 20px;
+    background: rgba(168, 85, 247, 0.15);
+    color: #c4b5fd;
+    font-size: 11px;
+    margin-bottom: 12px;
+}
+
+.empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 65px 20px;
+    background: #151d35;
+    border: 1px solid #293553;
+    border-radius: 16px;
+}
+
+.empty .icon {
+    font-size: 48px;
+    margin-bottom: 15px;
+}
+
+.empty h2 {
+    margin-bottom: 10px;
+}
+
+.empty p {
+    color: #929fbd;
+    font-size: 14px;
+}
+
+.restore-btn {
+    width: 100%;
+    margin-top: 18px;
+    padding: 12px;
+    background: linear-gradient(135deg, #7957ff, #a855f7);
+    color: white;
+    border: none;
+    border-radius: 9px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.restore-btn:hover {
+    opacity: 0.85;
+}
+
+@media(max-width: 600px) {
+    header {
+        padding: 18px;
+    }
+
+    .container {
+        margin: 35px auto;
+    }
+
+    .heading h1 {
+        font-size: 25px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">✦ BariraProjects</div>
+    <a href="dashboard.html">← Dashboard</a>
+</header>
+
+<div class="container">
+
+    <div class="heading">
+        <h1>♻️ Recently Deleted</h1>
+        <p>Manage your deleted tasks and restore them whenever needed.</p>
+    </div>
+
+    <div class="warning">
+        ⚠️ Deleted tasks are stored here so you can restore them later.
+    </div>
+
+    <div id="deletedTasks">
+        <div class="empty">
+            <div class="icon">⏳</div>
+            <h2>Loading deleted tasks...</h2>
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+function escapeHTML(value) {
+    return String(value ?? "").replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+    })[char]);
+}
+
+async function loadDeletedTasks() {
+
+    const container = document.getElementById("deletedTasks");
+
+    try {
+
+        const response = await fetch("/api/deleted-tasks");
+       const result = await response.text();
+
+console.log("SERVER STATUS:", response.status);
+console.log("SERVER RESPONSE:", result);
+
+const data = JSON.parse(result);
+
+        if (!response.ok || !data.success) {
+            container.innerHTML = `
+                <div class="empty">
+                    <h2>Could not load deleted tasks.</h2>
+                </div>
+            `;
+            return;
+        }
+
+        if (data.tasks.length === 0) {
+            container.innerHTML = `
+                <div class="empty">
+                    <div class="icon">🗑️</div>
+                    <h2>Nothing deleted yet!</h2>
+                    <p>Your deleted tasks will appear here.</p>
+                </div>
+            `;
+            return;
+        }
+
+        container.innerHTML = data.tasks.map(task => `
+            <div class="task-card">
+
+                <span class="badge">
+                    ${escapeHTML(task.priority || "Medium")} Priority
+                </span>
+
+                <h3>${escapeHTML(task.task_title)}</h3>
+
+                <p>📁 Project: ${escapeHTML(task.project_name)}</p>
+
+                <p>📌 Status: ${escapeHTML(task.status || "Unknown")}</p>
+
+                <p>🗑️ Deleted: ${
+                    task.deleted_at
+                    ? new Date(task.deleted_at).toLocaleString()
+                    : "Unknown"
+                }</p>
+
+              <button class="restore-btn" onclick="restoreTask(${task.id})">
+    ♻️ Restore Task
+</button>
+
+            </div>
+        `).join("");
+
+    } catch(error) {
+
+        console.error(error);
+
+        container.innerHTML = `
+            <div class="empty">
+                <h2>Something went wrong!</h2>
+                <p>Please refresh the page.</p>
+            </div>
+        `;
+
+    }
+}
+
+loadDeletedTasks();
+// RESTORE DELETED TASK
+async function restoreTask(historyId) {
+
+    if (!confirm("Are you sure you want to restore this task?")) {
+        return;
+    }
+
+    try {
+        const response = await fetch(
+            `/api/deleted-tasks/${historyId}/restore`,
+            { method: "POST" }
+        );
+
+        const data = await response.json();
+
+        if (!data.success) {
+            alert(data.message || "Could not restore task.");
+            return;
+        }
+
+        alert("Task restored successfully! ♻️");
+
+        await loadDeletedTasks();
+
+    } catch (error) {
+        console.error("Restore Error:", error);
+        alert("Something went wrong!");
+    }
+}
+</script>
+
+</body>
+</html>
