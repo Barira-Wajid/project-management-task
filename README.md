@@ -236,7 +236,28 @@ The main objectives of this project are:
 </p>
 
 ---
+## 📸 Project Screenshots
 
+### 1. Dashboard
+
+![Dashboard](dashboard.png)
+
+### 2. Projects Management
+
+![Projects](projects.png)
+
+### 3. Task Management
+
+![Tasks](tasks.png)
+
+### 4. Team Management
+
+![Team Management](team-management.png)
+
+### 5. Deleted Tasks & Restore
+
+![Deleted Tasks](deleted-tasks.png)
+ ---
 <p align="center">
   <strong>💜 Dream it. Build it. Improve it.</strong>
   <br><br>
