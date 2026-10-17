@@ -1,3 +1,6 @@
+<p align="center">
+  <img src="project-management-banner.png" width="100%" alt="Project Management System Banner">
+</p>
 <h1 align="center">🚀 Project Management System</h1>
 
 <p align="center">
