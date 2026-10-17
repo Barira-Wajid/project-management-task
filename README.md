@@ -1,23 +1,87 @@
-# 🚀 Project Management System
+<h1 align="center">🚀 Project Management System</h1>
 
-A full-stack **Project Management System** built to simplify project organization, task tracking, and team collaboration.
+<p align="center">
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=22&duration=3000&pause=1000&color=9D7BFF&center=true&vCenter=true&width=700&lines=Welcome+to+Project+Management+System!;Organize+Your+Projects;Manage+Tasks+Efficiently;Collaborate+With+Your+Team!" alt="Typing SVG">
+</p>
 
-This application allows users to manage projects, organize tasks, collaborate with team members, and restore recently deleted tasks through an easy-to-use interface.
+<p align="center">
+  <strong>A Full-Stack Project Management & Team Collaboration Application</strong>
+</p>
 
-## ✨ Features
+<p align="center">
+  <img src="https://img.shields.io/badge/Project-Full--Stack-blueviolet?style=for-the-badge">
+  <img src="https://img.shields.io/badge/Status-Completed-success?style=for-the-badge">
+  <img src="https://img.shields.io/badge/Developer-Barira%20Wajid-purple?style=for-the-badge">
+</p>
 
-* 🔐 User Registration and Login
-* 📊 Project Management Dashboard
-* 📁 Create and Manage Projects
-* ✅ Create and Manage Tasks
-* 👥 Team Management
-* 🤝 Team Collaboration
-* 🗑️ Recently Deleted Tasks
-* ♻️ Restore Deleted Tasks
-* 🔒 Session-Based Authentication
-* 🗄️ MySQL Database Integration
+---
 
-## 🛠️ Technologies Used
+## 🌟 About The Project
+
+The **Project Management System** is a full-stack web application designed to simplify project organization, task tracking, and team collaboration.
+
+It provides users with an organized workspace where they can create projects, manage tasks, collaborate with team members, and track their work.
+
+One of its useful features is the **Recently Deleted Tasks** section, which allows users to restore deleted tasks instead of losing them permanently.
+
+The application combines a responsive frontend, Node.js backend, and MySQL database to provide a practical project management experience.
+
+---
+
+## ✨ Key Features
+
+### 🔐 Authentication & Security
+
+* User Registration
+* User Login
+* Session-Based Authentication
+* Protected Application Routes
+
+### 📊 Project Management
+
+* Project Management Dashboard
+* Create New Projects
+* View and Manage Projects
+* Organized Project Workspace
+
+### ✅ Task Management
+
+* Create Tasks
+* Manage Existing Tasks
+* Organize Project Tasks
+* Track Task Progress
+
+### 👥 Team Collaboration
+
+* Team Management
+* Manage Team Members
+* Collaborate on Projects
+* Team-Based Task Organization
+
+### 🗑️ Recently Deleted Tasks
+
+* View Recently Deleted Tasks
+* Restore Deleted Tasks
+* Recover Tasks Without Recreating Them
+
+---
+
+## 📸 Project Screenshots
+
+*Screenshots of the application's interface will be displayed here.*
+
+---
+
+## 💻 Technologies Used
+
+<p align="center">
+  <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white">
+  <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white">
+  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black">
+  <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white">
+  <img src="https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white">
+  <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
+</p>
 
 ### Frontend
 
@@ -34,11 +98,29 @@ This application allows users to manage projects, organize tasks, collaborate wi
 
 * MySQL
 
-### Tools
+### Development Tools
 
 * Visual Studio Code
-* Git & GitHub
 * XAMPP
+* Git
+* GitHub
+
+---
+
+## 🗄️ Database
+
+The application uses **MySQL** for storing and managing project information.
+
+Database operations include:
+
+* User Information
+* Project Records
+* Task Records
+* Team Collaboration Data
+
+Database connection and configuration are managed through `db.js`.
+
+---
 
 ## 📂 Project Structure
 
@@ -59,10 +141,13 @@ project-management-task/
 ├── my-tasks.html
 ├── recently-deleted.html
 │
-└── .gitignore
+├── .gitignore
+└── README.md
 ```
 
-## ⚙️ Installation and Setup
+---
+
+## ⚙️ Installation & Setup
 
 Follow these steps to run the project locally.
 
@@ -89,7 +174,7 @@ npm install
 * Start MySQL using XAMPP.
 * Create the database required by the application.
 * Configure your database connection in `db.js`.
-* Make sure the required tables are created.
+* Make sure all required tables are created.
 
 ### 5. Start the Server
 
@@ -101,18 +186,58 @@ node server.js
 
 Open the local address displayed in your terminal in your web browser.
 
+---
+
 ## 🎯 Project Goals
 
-The main goal of this project is to provide a simple and efficient platform for managing projects, tracking tasks, and improving team productivity.
+The main objectives of this project are:
 
-## 👩‍💻 Developer
-
-**Barira Wajid**
-
-Full-Stack Web Developer
-
-GitHub: [@Barira-Wajid](https://github.com/Barira-Wajid)
+* Simplify project organization.
+* Improve task management.
+* Support team collaboration.
+* Provide an organized project dashboard.
+* Allow users to recover recently deleted tasks.
+* Practice full-stack web development.
 
 ---
 
-⭐ If you find this project interesting, consider giving it a star!
+## 🚀 Future Improvements
+
+* Real-time team notifications
+* Task deadline reminders
+* Advanced project analytics
+* File attachments for tasks
+* Enhanced team communication
+* More dashboard customization
+
+---
+
+## 👩‍💻 Developer
+
+<h2 align="center">Barira Wajid</h2>
+
+<p align="center">
+  Full-Stack Web Developer | Creative Designer
+</p>
+
+<p align="center">
+  <a href="https://github.com/Barira-Wajid">
+    <img src="https://img.shields.io/badge/GitHub-Barira--Wajid-181717?style=for-the-badge&logo=github">
+  </a>
+  <a href="https://www.linkedin.com/in/%20barira-wajid-554701425">
+    <img src="https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin">
+  </a>
+  <a href="https://bariraportfolio.rf.gd/">
+    <img src="https://img.shields.io/badge/Portfolio-Visit-8B5CF6?style=for-the-badge&logo=googlechrome&logoColor=white">
+  </a>
+</p>
+
+---
+
+<p align="center">
+  <strong>💜 Dream it. Build it. Improve it.</strong>
+  <br><br>
+  Made with ❤️ by Barira Wajid
+  <br><br>
+  ⭐ If you like this project, consider giving it a star!
+</p>
